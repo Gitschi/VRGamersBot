@@ -17,7 +17,7 @@ stream.on('tweet', function (tweet) {
 // Checks that the found tweet is not a quote, retweet or reply
 function isNotRt(tweet){
   var isClean = false;
-  if(!tweet.is_quote_status && !tweet.retweeted_status && tweet.in_reply_to_status_id === null){
+  if(!tweet.retweeted_status && !tweet.is_quote_status && tweet.in_reply_to_status_id === null){
     isClean = true;
   }
 
