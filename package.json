@@ -1,0 +1,23 @@
+{
+  "name": "vrgamersbot",
+  "version": "1.0.0",
+  "description": "Retweet bot for vrgamers",
+  "main": "app.js",
+  "dependencies": {
+    "twit": "^2.2.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gitschi/VRGamersBot.git"
+  },
+  "author": "Gitschi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gitschi/VRGamersBot/issues"
+  },
+  "homepage": "https://github.com/Gitschi/VRGamersBot#readme"
+}
