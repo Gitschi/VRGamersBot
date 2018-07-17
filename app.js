@@ -14,9 +14,17 @@ stream.on('tweet', function (tweet) {
 
   if(checkTweet(tweet)){
     T.post('statuses/retweet/:id', id, function (err, data, response) {
-      console.log("Retweeted " + tweet.user.name + "'s post with id: " + tweet.id_str)
+      if(err){
+        console.log(err)
+      }
+      else{
+        console.log("Retweeted " + tweet.user.name + "'s post with id: " + tweet.id_str)
+      }
     }) 
     T.post('favorites/create', id, function (err, data, response) {
+      if(err){
+        console.log(err);
+      }
     }) 
   }
 })
