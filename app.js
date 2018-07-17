@@ -1,25 +1,53 @@
 var Twit = require('twit');
-var secret = require("./secret"); // Imports API keys
-var T = new Twit(secret); // Pushes API keys into constructor and makes new object
+var env = require("./env"); // Imports API keys
+var T = new Twit(env.keys); 
+var maxHashtags = 7; // Sets max amount of Hashtags for spam check
 
-// Looks for certain hashtags in the stream
-var stream = T.stream('statuses/filter', { track: ['#vrgamers', '#vrgaming', '#vrgame', '#vrgames', '#vrchat', '#beatsaber'], language: 'en'});
+// Looks for certain hashtags
+var stream = T.stream('statuses/filter', { track: [
+  'vrgamers', '#vrgaming', '#vrgame', '#vrgames', '#vrchat', '#beatsaber'
+], language: 'en'});
 
-// retweets found tweets that match the criteria
+// retweets found posts that match the criteria
 stream.on('tweet', function (tweet) {
-  if(isNotRt(tweet)){
-    T.post('statuses/retweet/:id', { id: tweet.id_str }, function (err, data, response) {
-      console.log(data)
+  var id = { id: tweet.id_str };
+
+  if(checkTweet(tweet)){
+    T.post('statuses/retweet/:id', id, function (err, data, response) {
+      console.log("Retweeted " + tweet.user.name + "'s post with id: " + tweet.id_str)
+    }) 
+    T.post('favorites/create', id, function (err, data, response) {
     }) 
   }
 })
 
-// Checks that the found tweet is not a quote, retweet or reply
-function isNotRt(tweet){
-  var isClean = false;
-  if(!tweet.retweeted_status && !tweet.is_quote_status && tweet.in_reply_to_status_id === null){
-    isClean = true;
-  }
+// Runs tweet through checks
+function checkTweet(tweet){
+ if(checkOriginality(tweet) && checkSpam(tweet)){
+   return true;
+ }
+}
 
-  return isClean;
+// Checks that the found tweet is not a quote, retweet or reply
+function checkOriginality(tweet){
+  var isOriginal = false;
+  if(!tweet.retweeted_status && !tweet.is_quote_status && tweet.in_reply_to_status_id === null){
+    isOriginal = true;
+  }
+  else{
+    console.log(tweet.user.name + "'s tweet with id: " + tweet.id_str + " is not original.")
+  }
+  return isOriginal;
+}
+
+// Checks that the tweet is not spamming tags
+function checkSpam(tweet){
+  var isNotSpam = false;
+  if(tweet.entities.hashtags.length <= maxHashtags){
+    isNotSpam = true;
+  }
+  else{
+    console.log(tweet.user.name + "'s tweet with id: " + tweet.id_str + " is not most likely spam.")
+  }
+  return isNotSpam;
 }
