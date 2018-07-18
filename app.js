@@ -34,6 +34,9 @@ function checkTweet(tweet){
  if(checkOriginality(tweet) && checkSpam(tweet)){
    return true;
  }
+ else{
+   return false;
+ }
 }
 
 // Checks that the found tweet is not a quote, retweet or reply
