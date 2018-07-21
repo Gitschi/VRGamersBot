@@ -55,6 +55,7 @@ function checkOriginality(tweet){
 function checkSpam(tweet){
   var isNotSpam = false;
   if(tweet.entities.hashtags.length <= maxHashtags){
+    console.log("hashtags: " + tweet.entities.hashtags.length + "vs. " + maxHashtags);
     isNotSpam = true;
   }
   else{
@@ -67,6 +68,7 @@ function checkSpam(tweet){
 function checkInsta(tweet){
   var noInstaLink = true;
   for(let i = 0; i < tweet.entities.urls.length; i++){
+    console.log(tweet.entities.urls[i].expanded_url.slice(0, 24));
     if(tweet.entities.urls[i].expanded_url.slice(0, 24) === "https://www.instagram.com"){
       noInstaLink = false;
       console.log(tweet.user.name + "'s tweet with id: " + tweet.id_str + " contains an instagram link.")
