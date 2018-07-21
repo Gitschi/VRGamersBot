@@ -5,7 +5,7 @@ var maxHashtags = 7; // Sets max amount of Hashtags for spam check
 
 // Looks for certain hashtags
 var stream = T.stream('statuses/filter', { track: [
-  'vrgamers', '#vrgaming', '#vrgame', '#vrgames', '#vrchat', '#beatsaber'
+  'vrgamers', '#vrgaming', '#vrgame', '#vrgames', '#vrchat', '#beatsaber', '#jobsimulator'
 ], language: 'en'});
 
 // retweets found posts that match the criteria
@@ -31,7 +31,7 @@ stream.on('tweet', function (tweet) {
 
 // Runs tweet through checks
 function checkTweet(tweet){
- if(checkOriginality(tweet) && checkSpam(tweet)){
+ if(checkOriginality(tweet) && checkSpam(tweet) && checkInsta(tweet)){
    return true;
  }
  else{
@@ -61,4 +61,16 @@ function checkSpam(tweet){
     console.log(tweet.user.name + "'s tweet with id: " + tweet.id_str + " is not most likely spam.")
   }
   return isNotSpam;
+}
+
+// Checks that the tweet does not contain instagram links
+function checkInsta(tweet){
+  var noInstaLink = true;
+  for(let i = 0; i < tweet.entities.urls.length; i++){
+    if(tweet.entities.urls.expanded_url.slice(0, 20) === "https://instagram.com"){
+      noInstaLink = false;
+      console.log(tweet.user.name + "'s tweet with id: " + tweet.id_str + " contains an instagram link.")
+    }
+  }
+  return noInstaLink;
 }
