@@ -67,10 +67,10 @@ function checkSpam(tweet){
 function checkInsta(tweet){
   var noInstaLink = true;
   for(let i = 0; i < tweet.entities.urls.length; i++){
-    if(tweet.entities.urls.expanded_url.slice(0, 20) === "https://instagram.com"){
+    if(tweet.entities.urls[i].expanded_url.slice(0, 20) === "https://instagram.com"){
       noInstaLink = false;
       console.log(tweet.user.name + "'s tweet with id: " + tweet.id_str + " contains an instagram link.")
-    }
+    }  
   }
   return noInstaLink;
 }
