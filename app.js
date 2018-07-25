@@ -56,11 +56,11 @@ function checkOriginality(tweet){
 function checkSpam(tweet){
   let isNotSpam = false;
 
-  if(tweet.truncated && tweet.entities.hashtags.length <= maxHashtags){
+  if(!tweet.truncated && tweet.entities.hashtags.length <= maxHashtags){
     console.log("(truncated)hashtags: " + tweet.entities.hashtags.length + " of maximum: " + maxHashtags);
     isNotSpam = true;
   }
-  else if(!tweet.truncated && tweet.extended_tweet.entities.hashtags.length <= maxHashtags){
+  else if(tweet.truncated && tweet.extended_tweet.entities.hashtags.length <= maxHashtags){
     console.log("(non truncated)hashtags: " + tweet.extended_tweet.entities.hashtags.length + " of maximum: " + maxHashtags);
     isNotSpam = true;
   }
@@ -74,7 +74,7 @@ function checkSpam(tweet){
 function checkInsta(tweet){
   let noInstaLink = true;
 
-  if(tweet.truncated){
+  if(!tweet.truncated){
     for(let i = 0; i < tweet.entities.urls.length; i++){
       console.log(tweet.entities.urls[i].expanded_url.slice(0, 24));
       if(tweet.entities.urls[i].expanded_url.slice(0, 25) === "https://www.instagram.com"){
@@ -83,7 +83,7 @@ function checkInsta(tweet){
       }  
     }  
   }
-  else if(!tweet.truncated){
+  else if(tweet.truncated){
     for(let i = 0; i < tweet.extended_tweet.entities.urls.length; i++){
       console.log(tweet.extended_tweet.entities.urls[i].expanded_url.slice(0, 24));
       if(tweet.extended_tweet.entities.urls[i].expanded_url.slice(0, 25) === "https://www.instagram.com"){
