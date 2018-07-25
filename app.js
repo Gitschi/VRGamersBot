@@ -55,15 +55,13 @@ function checkOriginality(tweet){
 // Checks that the tweet is not spamming tags
 function checkSpam(tweet){
   let isNotSpam = false;
-  let hashtagsTrunc = tweet.entities.hashtags;
-  let hashtagsNonTrunc = tweet.extended_tweet.entities.hashtags;
 
-  if(hashtagsTrunc && hashtagsTrunc.length <= maxHashtags){
-    console.log("(truncated)hashtags: " + hashtagsTrunc.length + " of maximum: " + maxHashtags);
+  if(tweet.truncated && tweet.entities.hashtags.length <= maxHashtags){
+    console.log("(truncated)hashtags: " + tweet.entities.hashtags.length + " of maximum: " + maxHashtags);
     isNotSpam = true;
   }
-  else if(hashtagsNonTrunc && hashtagsNonTrunc.length <= maxHashtags){
-    console.log("(non truncated)hashtags: " + hashtagsTrunc.length + " of maximum: " + maxHashtags);
+  else if(!tweet.truncated && tweet.extended_tweet.entities.hashtags.length <= maxHashtags){
+    console.log("(non truncated)hashtags: " + tweet.extended_tweet.entities.hashtags.length + " of maximum: " + maxHashtags);
     isNotSpam = true;
   }
   else{
@@ -75,22 +73,20 @@ function checkSpam(tweet){
 // Checks that the tweet does not contain instagram links
 function checkInsta(tweet){
   let noInstaLink = true;
-  let urlsTrunc = tweet.entities.urls;
-  let urlsNonTrunc = tweet.extended_tweet.entities.urls;
 
-  if(urlsTrunc){
-    for(let i = 0; i < urlsTrunc.length; i++){
-      console.log(urlsTrunc[i].expanded_url.slice(0, 24));
-      if(urlsTrunc[i].expanded_url.slice(0, 25) === "https://www.instagram.com"){
+  if(tweet.truncated){
+    for(let i = 0; i < tweet.entities.urls.length; i++){
+      console.log(tweet.entities.urls[i].expanded_url.slice(0, 24));
+      if(tweet.entities.urls[i].expanded_url.slice(0, 25) === "https://www.instagram.com"){
         noInstaLink = false;
         console.log(tweet.user.name + "'s tweet with id: " + tweet.id_str + " contains an instagram link.")
       }  
     }  
   }
-  else if(urlsNonTrunc){
-    for(let i = 0; i < urlsNonTrunc.length; i++){
-      console.log(urlsNonTrunc[i].expanded_url.slice(0, 24));
-      if(urlsNonTrunc[i].expanded_url.slice(0, 25) === "https://www.instagram.com"){
+  else if(!tweet.truncated){
+    for(let i = 0; i < tweet.extended_tweet.entities.urls.length; i++){
+      console.log(tweet.extended_tweet.entities.urls[i].expanded_url.slice(0, 24));
+      if(tweet.extended_tweet.entities.urls[i].expanded_url.slice(0, 25) === "https://www.instagram.com"){
         noInstaLink = false;
         console.log(tweet.user.name + "'s tweet with id: " + tweet.id_str + " contains an instagram link.")
       }  
