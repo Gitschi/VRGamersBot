@@ -42,7 +42,7 @@ function checkTweet(tweet){
 
 // Checks that the found tweet is not a quote, retweet or reply
 function checkOriginality(tweet){
-  var isOriginal = false;
+  let isOriginal = false;
   if(!tweet.retweeted_status && !tweet.is_quote_status && tweet.in_reply_to_status_id === null){
     isOriginal = true;
   }
@@ -54,9 +54,16 @@ function checkOriginality(tweet){
 
 // Checks that the tweet is not spamming tags
 function checkSpam(tweet){
-  var isNotSpam = false;
-  if(tweet.entities.hashtags.length <= maxHashtags){
-    console.log("hashtags: " + tweet.entities.hashtags.length + " of maximum: " + maxHashtags);
+  let isNotSpam = false;
+  let hashtagsTrunc = tweet.entities.hashtags;
+  let hashtagsNonTrunc = tweet.extended_tweet.entities.hashtags;
+
+  if(hashtagsTrunc && hashtagsTrunc.length <= maxHashtags){
+    console.log("(truncated)hashtags: " + hashtagsTrunc.length + " of maximum: " + maxHashtags);
+    isNotSpam = true;
+  }
+  else if(hashtagsNonTrunc && hashtagsNonTrunc.length <= maxHashtags){
+    console.log("(non truncated)hashtags: " + hashtagsTrunc.length + " of maximum: " + maxHashtags);
     isNotSpam = true;
   }
   else{
@@ -67,12 +74,26 @@ function checkSpam(tweet){
 
 // Checks that the tweet does not contain instagram links
 function checkInsta(tweet){
-  var noInstaLink = true;
-  for(let i = 0; i < tweet.entities.urls.length; i++){
-    console.log(tweet.entities.urls[i].expanded_url.slice(0, 24));
-    if(tweet.entities.urls[i].expanded_url.slice(0, 20) === "https://instagram.com"){
-      noInstaLink = false;
-      console.log(tweet.user.name + "'s tweet with id: " + tweet.id_str + " contains an instagram link.")
+  let noInstaLink = true;
+  let urlsTrunc = tweet.entities.urls;
+  let urlsNonTrunc = tweet.extended_tweet.entities.urls;
+
+  if(urlsTrunc){
+    for(let i = 0; i < urlsTrunc.length; i++){
+      console.log(urlsTrunc[i].expanded_url.slice(0, 24));
+      if(urlsTrunc[i].expanded_url.slice(0, 25) === "https://www.instagram.com"){
+        noInstaLink = false;
+        console.log(tweet.user.name + "'s tweet with id: " + tweet.id_str + " contains an instagram link.")
+      }  
+    }  
+  }
+  else if(urlsNonTrunc){
+    for(let i = 0; i < urlsNonTrunc.length; i++){
+      console.log(urlsNonTrunc[i].expanded_url.slice(0, 24));
+      if(urlsNonTrunc[i].expanded_url.slice(0, 25) === "https://www.instagram.com"){
+        noInstaLink = false;
+        console.log(tweet.user.name + "'s tweet with id: " + tweet.id_str + " contains an instagram link.")
+      }  
     }  
   }
   return noInstaLink;
@@ -80,11 +101,13 @@ function checkInsta(tweet){
 
 // Checks that the user is not blacklisted
 function checkBlacklist(tweet){
-  var isNotBlacklisted = true;
+  let isNotBlacklisted = true;
+  let screenName = tweet.user.screen_name;
+
   for(let i = 0; i < blacklist.names.length; i++){
-    if(tweet.user.screen_name === blacklist.names[i]){
+    if(screenName === blacklist.names[i]){
       isNotBlacklisted = false;
-      console.log("User: " + tweet.user.screen_name + " is blacklisted.");
+      console.log("User: " + screenName + " is blacklisted.");
     }
   }
   return isNotBlacklisted;
