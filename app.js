@@ -6,7 +6,8 @@ var maxHashtags = 7; // Sets max amount of Hashtags for spam check
 
 // Looks for certain hashtags
 var stream = T.stream('statuses/filter', { track: [
-  'vrgamers', '#vrgaming', '#vrgame', '#vrgames', '#vrchat', '#beatsaber', '#jobsimulator'
+  '#vrgamers', '#vrgaming', '#vrgame', '#vrgames', '#vrchat', '#beatsaber', '#jobsimulator', "#arizonasunshine",
+  '#thepersistence','#recroom', '#gargantuavr', '#seekingdawn'
 ], language: 'en'});
 
 // retweets found posts that match the criteria
