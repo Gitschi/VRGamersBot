@@ -5,6 +5,6 @@
 module.exports = {
   names: [
     'toe_fur', 'DeviantTrinity', 'PollyTalks1', 'terpon_sa', 'Indiandante', 'iconohash', 'shanghai_game',
-    'jackjjackman', 'mailorderprofit', 'jsfey', 'Sd_Flandre'
+    'jackjjackman', 'mailorderprofit', 'jsfey', 'Sd_Flandre', 'vrconk'
   ]
 };
