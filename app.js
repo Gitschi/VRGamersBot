@@ -8,7 +8,7 @@ var maxHashtags = 7; // Sets max amount of Hashtags for spam check
 var stream = T.stream('statuses/filter', { track: [
   '#vrgamers', '#vrgaming', '#vrgame', '#vrgames', '#vrchat', '#beatsaber', '#jobsimulator', "#arizonasunshine",
   '#recroom', '#gargantuavr', '#seekingdawn', '#bladeandsorcery', '#asgardswrath', '#standoutvrbattleroyale',
-  '#zerocalibervr', '#orbusvr', '#journeyforelysium', "#oculusquest"
+  '#zerocalibervr', '#orbusvr', '#journeyforelysium', "#oculusquest", "#untilyoufallvr", 
 ], language: 'en'});
 
 // retweets found posts that match the criteria
@@ -34,7 +34,13 @@ stream.on('tweet', function (tweet) {
 
 // Runs tweet through checks
 function checkTweet(tweet){
- if(checkOriginality(tweet) && checkSpam(tweet) && checkInsta(tweet) && checkBlacklist(tweet)){
+ if(
+    checkOriginality(tweet) &&
+    checkSpam(tweet) && 
+    checkInsta(tweet) && 
+    checkBlacklistedUsers(tweet) &&
+    checkBlacklistedHashtags(tweet)
+  ){
    return true;
  }
  else{
@@ -98,7 +104,7 @@ function checkInsta(tweet){
 }
 
 // Checks that the user is not blacklisted
-function checkBlacklist(tweet){
+function checkBlacklistedUsers(tweet){
   let isNotBlacklisted = true;
   let screenName = tweet.user.screen_name;
 
@@ -106,6 +112,22 @@ function checkBlacklist(tweet){
     if(screenName === blacklist.names[i]){
       isNotBlacklisted = false;
       console.log("User: " + screenName + " is blacklisted.");
+    }
+  }
+  return isNotBlacklisted;
+}
+
+// Checks that the tweet doesn't contain blacklisted hashtags
+function checkBlacklistedHashtags(tweet){
+  let isNotBlacklisted = true;
+  let screenName = tweet.user.screen_name;
+
+  for(let i = 0; i < blacklist.hashtags.length; i++){
+    for(let j = 0; j < tweet.entities.hashtags.length; j++){
+      if(blacklist.hashtags[i] === tweet.entities.hashtags[j]){
+        isNotBlacklisted = false;
+        console.log("Post cointains blacklisted hashtag: " + blacklist.hashtags[i]);
+      }  
     }
   }
   return isNotBlacklisted;
