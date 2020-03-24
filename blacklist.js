@@ -8,6 +8,7 @@ module.exports = {
     'jackjjackman', 'mailorderprofit', 'jsfey', 'Sd_Flandre', 'vrconk'
   ],
   hashtags: [
-    '#vrporn', '#porn'
-  ]
+    '#vrporn', '#porn', '#giveaway', '#lingerie'
+  ],
+  words: /(sex|pussy|dick|whore|fuck|fucked|striptease|strip|nude|boobs|nudes|sexy|ass)/g
 };

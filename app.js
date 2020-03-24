@@ -8,7 +8,7 @@ var maxHashtags = 7; // Sets max amount of Hashtags for spam check
 var stream = T.stream('statuses/filter', { track: [
   '#vrgamers', '#vrgaming', '#vrgame', '#vrgames', '#vrchat', '#beatsaber', '#jobsimulator', "#arizonasunshine",
   '#recroom', '#gargantuavr', '#seekingdawn', '#bladeandsorcery', '#asgardswrath', '#standoutvrbattleroyale',
-  '#zerocalibervr', '#orbusvr', '#journeyforelysium', "#oculusquest", "#untilyoufallvr", 
+  '#zerocalibervr', '#orbusvr', '#journeyforelysium', "#oculusquest", "#untilyoufallvr", "#halflifealyx",
 ], language: 'en'});
 
 // retweets found posts that match the criteria
@@ -39,7 +39,8 @@ function checkTweet(tweet){
     checkSpam(tweet) && 
     checkInsta(tweet) && 
     checkBlacklistedUsers(tweet) &&
-    checkBlacklistedHashtags(tweet)
+    checkBlacklistedHashtags(tweet) &&
+    checkBlacklistedWords(tweet)
   ){
    return true;
  }
@@ -131,4 +132,22 @@ function checkBlacklistedHashtags(tweet){
     }
   }
   return isNotBlacklisted;
+}
+
+function checkBlacklistedWords(tweet){
+  let text;
+  if(tweet.truncated){
+    text = tweet.extended_tweet.full_text;
+  } else {
+    text = tweet.text;
+  }
+
+  const wordArr = blacklist.words.exec(text);
+  if(wordArr){
+    console.log("BLOCKED")
+    return false;
+  } else {
+    console.log("OK")
+    return true;
+  }
 }
