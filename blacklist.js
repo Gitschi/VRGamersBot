@@ -10,5 +10,5 @@ module.exports = {
   hashtags: [
     '#vrporn', '#porn', '#giveaway', '#lingerie'
   ],
-  words: /(sex|pussy|dick|whore|fuck|fucked|striptease|strip|nude|boobs|nudes|sexy|ass)/g
+  words: /(sex|pussy|dick|whore|fuck|fucked|striptease|strip|nude|boobs|nudes|sexy|ass|porn)/g
 };
