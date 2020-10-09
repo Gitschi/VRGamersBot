@@ -5,7 +5,8 @@
 module.exports = {
   names: [
     'toe_fur', 'DeviantTrinity', 'PollyTalks1', 'terpon_sa', 'Indiandante', 'iconohash', 'shanghai_game',
-    'jackjjackman', 'mailorderprofit', 'jsfey', 'Sd_Flandre', 'vrconk', 'MaximilianTW', 'adultgamesnews'
+    'jackjjackman', 'mailorderprofit', 'jsfey', 'Sd_Flandre', 'vrconk', 'MaximilianTW', 'adultgamesnews',
+    'darkcatt', 'djinniandthaco'
   ],
   hashtags: [
     '#vrporn', '#porn', '#giveaway', '#lingerie'
