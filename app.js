@@ -9,7 +9,7 @@ var stream = T.stream('statuses/filter', { track: [
   '#vrgamers', '#vrgaming', '#vrgame', '#vrgames', '#beatsaber', '#jobsimulator', "#arizonasunshine",
   '#recroom', '#gargantuavr', '#seekingdawn', '#bladeandsorcery', '#asgardswrath', '#standoutvrbattleroyale',
   '#zerocalibervr', '#orbusvr', '#journeyforelysium', "#untilyoufallvr", "#halflifealyx", "#pop1", "#realvrfishing",
-  '#frostpointvr'
+  '#frostpointvr', '#monsterreapersvr'
 ], language: 'en'});
 
 // retweets found posts that match the criteria
